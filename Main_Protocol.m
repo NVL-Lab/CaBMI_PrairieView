@@ -1,6 +1,7 @@
 %%%TODO'S!!!!
 %{
 Nuria:
+\
 - define the BNCs hookups --> Frame Trigger
 Base: disp number of target hits (without b2base)
 BMI: disp number of delivered holo stims
