@@ -2,7 +2,6 @@
 %{
 Nuria:
 - define the BNCs hookups --> Frame Trigger
-checking something
 Base: disp number of target hits (without b2base)
 BMI: disp number of delivered holo stims
 streamline analysis of baseline, pretrain, bmi data, plots in same format
