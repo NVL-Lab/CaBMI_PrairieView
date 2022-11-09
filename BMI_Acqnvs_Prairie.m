@@ -240,7 +240,7 @@ function BMIAcqnvsPrairienoTrialsHoloCL_debug_enable_v4(folder, animal, day, ...
     if(~debug_bool)
         clear s
         s = daq.createSession('ni');
-        addDigitalChannel(s,'dev5','Port0/Line0:2','OutputOnly');
+        addDigitalChannel(s,'dev6','Port0/Line0:2','OutputOnly');
         ni_out = [0 0 0]; 
         outputSingleScan(s,ni_out);%set   
         ni_getimage = [1 0 0]; 
@@ -264,7 +264,7 @@ function BMIAcqnvsPrairienoTrialsHoloCL_debug_enable_v4(folder, animal, day, ...
 
         % Prairie commands
         pl.SendScriptCommands('-srd True 0');
-        pl.SendScriptCommands('-lbs True 0');
+        pl.SendScriptCommands('-lbs True 5');
 
         lastFrame = zeros(px, py); % to compare with new incoming frames
 
