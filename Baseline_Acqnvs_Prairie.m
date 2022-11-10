@@ -36,6 +36,12 @@ neuronMask -> matrix for spatial filters with px*py*unit
     %% Cleaning 
     finishup = onCleanup(@() clean_Me_Up(mat_path));  %in case of ctrl-c it will launch cleanmeup
 
+    %% Prepare the nidaq
+    s = daq.createSession('ni');
+    addDigitalChannel(s,'dev6','Port0/Line0:2','OutputOnly');
+    ni_out = [0 0 0]; 
+    outputSingleScan(s,ni_out);%set   
+    ni_getimage = [0 1 0]; 
 
     %% Prepare for Prairie
     % connection to Prairie
@@ -92,6 +98,7 @@ neuronMask -> matrix for spatial filters with px*py*unit
         if ~isequal(Im,lastFrame)   
             tic
             lastFrame = Im;   % comparison and assignment takes ~4ms
+            outputSingleScan(s,ni_getimage); pause(0.001); outputSingleScan(s,[0 0 0]);
             unitVals = obtain_Roi(Im, strcMask); % function to obtain Rois values 
             baseActivity(:,frame) = unitVals;
             frame = frame + 1;
