@@ -1,14 +1,9 @@
 %%%TODO'S!!!!
 %{
 Nuria:
-- define the BNCs hookups --> Frame Trigger
 - create the environments for tseries 15 and 40 (for baseline and BMI)
-- Do I need BNCs?
 - the CD make it a path from settings
-- check kenichi? I need it
 - find the best variables for kenichi in task_settins.image
-- do I have a nidaq? no? do I have triggers? do I have voltage recording?
-- how do I know when an image comes?
 - Check in baseline_ack and bmi_ack the nidaq
 - check that cleaning saves the baseline
 - check sec_per_reward_range is very low (only 1 every 2 min!)
@@ -18,11 +13,12 @@ also in dff2cursor_target
 - need to clean better baseline2target for now I leave it as is
 - check random stim with baseline?
 - check data type in computer?
-- check with a mouse if the stim of d1r fucks up the pmts
+- check first alone, then with a mouse if the stim of d1r fucks up the pmts
 - chanching everything to single, check that it doesn't give problems!
 - check how to do the stims, arduino also? I think so, but double check
 - check how to get when the frames comes, this may be important!
 - make sure that outputSingleScan is working if going with nidaq, otherwise
+- how long does the stim need to be active?
 maybe try arduino for this too?
 
 and c3
@@ -36,6 +32,21 @@ in BMI_Acqnvs_Prairie
 - change the paths
 - nidaq?
 - play tone for reward?
+
+%}
+%% BEFORE STARTING
+%{ 
+make sure the BNCs are connected properly
+- PCI-AI0 goes to NIDAQ -> P0.1
+- PCI-AI1 goes to PFI8 with a T-BNC
+the arduino
+atm the arduino is sending the activation of the light stim
+- digital pin D5 is blue
+- digital pin D3 is UV
+and the nidaq
+the nidaq sends a quick pulse to synchronize each BMI frame
+for that we also use voltage recording to get each Prairie-view frame
+voltage rec samples/sec min 1000, time(ms) > time_t_series
 
 %}
 

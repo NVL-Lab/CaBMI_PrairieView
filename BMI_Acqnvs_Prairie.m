@@ -173,20 +173,17 @@ function BMI_Acqnvs_Prairie(folder, animal, day, ...
     %% Cleaning 
     finishup = onCleanup(@() cleanMeUp(savePath, bData, debug_bool));  %in case of ctrl-c it will launch cleanmeup
 
-% %     %% Prepare the nidaq
-%     if(~debug_bool)
-%         clear s
-%         s = daq.createSession('ni');
-%         addDigitalChannel(s,'dev5','Port0/Line0:2','OutputOnly');
-%         ni_out = [0 0 0]; 
-%         outputSingleScan(s,ni_out);%set   
-%         ni_getimage = [1 0 0]; 
-%         ni_reward   = [0 1 0]; 
-%         ni_holo     = [0 0 1]; 
-%     end
-% %       Line 0: GetImage Pulse
-% %       Line 1: Triggers VTA stim / reward 
-% %       Line 2: Triggers holo stim
+%     %% Prepare the nidaq
+    if(~debug_bool)
+        clear s
+        s = daq.createSession('ni');
+        addDigitalChannel(s,'dev6','Port0/Line0:2','OutputOnly');
+        ni_out = [0 0 0]; 
+        outputSingleScan(s,ni_out);%set   
+        ni_getimage = [0 1 0]; 
+    end
+%       Line 1: GetImage Pulse
+
 
     %% Prepare for Prairie
     % connection to Prairie
