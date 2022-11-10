@@ -1,0 +1,67 @@
+function [task_settings] = define_BMI_task_settings()
+
+%Imaging environment file for baseline acquisition
+task_settings.baseline_env = ...
+    fullfile('G:\VivekNuria\utils', 'Tseries_baseline_15.env');
+%Imaging environment file for BMI acquisition
+task_settings.bmi_env = ...
+    fullfile('G:\VivekNuria\utils', 'Tseries_BMI_40.env');
+
+
+%
+%% imaging
+
+%--------------------------------------------------------------------------
+%%calibration: 
+task_settings.calibration.target_on_cov_bool     = 0; 
+task_settings.calibration.sec_per_reward_range   = [70 60]; 
+task_settings.calibration.baseline_len           = 7.5*60; %seconds
+task_settings.calibration.f0_win_bool            = 1; %during calibration, 
+%estimate f0 using the window
+task_settings.calibration.f0_init_slide          = 0; %during calibration, 
+%if 0, f0 is only used after f0_win samples.  if 1, f0 is
+%adapted in the window from 0 to f0_win samples.
+
+
+
+%--------------------------------------------------------------------------
+%bmi: 
+task_settings.onacid_bool               = false; 
+task_settings.bmi_len                   = 40*60; %seconds
+task_settings.prefix_win                = 100; 
+%set this to 'nonBufferUpdateCounter', 'initFrameBase', number samples to ignore at start of bmi acqn
+
+task_settings.f0_win                    = 2*60*ceil(task_settings.frameRate); 
+%'baseFrames' in BMI code, number samples to use to estimate f0
+
+task_settings.dff_win                   = 10; 
+%'movingAverageFrames', number of frames to use for smoothing dff
+
+task_settings.range_norm_bool           = 1; 
+%normalize each neuron by its range
+
+task_settings.cursor_zscore_bool        = 0; 
+%- if 1, neural activity is zscored before going into
+%cursor calculation. if 0, neural activity is not zscored.  
+
+task_settings.rewardDelayFrames         = 10; 
+%TODO confirm arduino code triggers reward immediately, so it doesn't add
+%extra delay
+
+task_settings.back2BaseFrameThresh      = 2; %2 frames of back2base 
+task_settings.relaxationTime            = 0; 
+task_settings.b2base_coeff              = 0.5; 
+%a frame counts as back2base if cursor < b2base_coeff*T, where T is target cursor value.  
+
+%--------------------------------------------------------------------------
+
+
+%%
+%Baseline inputs: 
+%baseline_frameRate
+
+%%
+%Baseline outputs: 
+%frames_per_reward_range
+%
+

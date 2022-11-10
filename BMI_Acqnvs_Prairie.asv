@@ -162,10 +162,12 @@ function BMI_Acqnvs_Prairie(folder, animal, day, ...
     initFrameBase = nonBufferUpdateCounter + 1;
     %beginning of experiment and VTA stim
     BufferUpdateCounter = 0;
+    
+    %Only useful if: flagBMI=false; flagStimRandom = true; flagDRstim = true;
 
-    deliver_water       = 0;
-    deliver_stim        = 0;
- 
+    deliver_reward      = 0; 
+    rewardDelayCounter  = 0; 
+    rewardDelayFrames   = 10; 
     
     back2BaseCounter = 0;
     backtobaselineFlag = 0;
@@ -416,6 +418,10 @@ function BMI_Acqnvs_Prairie(folder, animal, day, ...
                                     deliver_stim = 1;
                                     disp('SCHEDULED DR STIM'); 
                                     data.sched_random_stim = data.sched_random_stim + 1;
+                                    if(~debug_bool)
+                                        % deliver the DR stim??
+                                        outputSingleScan(s,ni_holo); pause(0.001); outputSingleScan(s,ni_out)                                    
+                                    end
                                     %Also, save the frame we do this!!
                                     data.randomDRstim(data.frame) = 1;
                                 end
@@ -434,19 +440,14 @@ function BMI_Acqnvs_Prairie(folder, animal, day, ...
                 end
             end
             
-            if deliver_water 
+            if(rewardDelayCounter > 0)
+                rewardDelayCounter = rewardDelayCounter -1; 
+            elseif(deliver_reward && rewardDelayCounter==0)
                 if(~debug_bool)
                     outputSingleScan(s,ni_reward); pause(0.001); outputSingleScan(s,ni_out);
                 end
-                deliver_water = 0; 
-                disp('water delivered!'); 
-            end
-            if deliver_stim
-                if(~debug_bool)
-                    outputSingleScan(s,ni_holo); pause(0.001); outputSingleScan(s,ni_out)
-                end
-                deliver_stim = 0; 
-                disp('stim delivered!');
+                deliver_reward = 0; 
+                disp('reward delivered!'); 
             end
                 
             data.frame = data.frame + 1;
