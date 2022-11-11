@@ -15,7 +15,6 @@ also in dff2cursor_target
 - check first alone, then with a mouse if the stim of d1r fucks up the pmts
 - chanching everything to single, check that it doesn't give problems!
 
-
 in 'define_BMI_tset()'
 - define the folder paths!
 - check the framerate for what I want
@@ -24,6 +23,9 @@ in 'define_and_load_bmi_paths()'
 in BMI_Acqnvs_Prairie
 - change the paths
 - play tone for reward?
+
+future TODO
+- add more than one roi simultaneously
 
 %}
 %% BEFORE STARTING
@@ -200,6 +202,7 @@ close all;
 %-Run cell to manually draw additional ROI
 %--------------------------------------------------------------------------
 disp('Adding ROIs to image!'); 
+% Better to add rois one by one (TODO solve add more than one)
 [roi_data] = draw_roi_g_chan(plot_images, roi_data);
 close all
 
@@ -230,6 +233,7 @@ save(roi_data_file, 'plot_images', 'im_sc_struct', 'roi_data');
 
 %% Baseline acquisition
 % Baseline environment already sets the reps to 27000
+% CAREFUL that the voltage rec doesn't go to crazy places
 base_mat_path = Baseline_Acqnvs_Prairie(folder, animal, day, roi_data.roi_mask, tset);
 % saves in [savePath, 'baselineActivity'] the activity of all the
 
@@ -255,8 +259,8 @@ plot_Neurons_Baseline(baseActivity, CComp, YrA, totalneurons)
 
 %% Select MANUALLY ensemble neurons
 %Manually enter and confirm the BMI neurons:
-E2_base = sort([7 9 12 29], 'ascend'); 
-E1_base = sort([25 15 10 26], 'ascend'); 
+E2_base = sort([1 2], 'ascend'); 
+E1_base = sort([3 4], 'ascend'); 
 ensembleNeurons = [E1_base, E2_base];
 plot_Neurons_Ensemble(baseActivity, ensembleNeurons, [ones(1,length(E1_base)) 2*ones(1,length(E2_base))])
 select_roi_data(roi_data, [unique(E2_base), unique(E1_base)]); 

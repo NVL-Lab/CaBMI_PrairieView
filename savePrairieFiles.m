@@ -1,7 +1,7 @@
 function savePrairieFiles(savePath, pl, expt_str)
 % function to set the paths for saving 
 
-    savePathPrairie = fullfile(savePath, "im");
+    savePathPrairie = fullfile(savePath, 'im');
     if ~exist(savePathPrairie, 'dir')
         mkdir(savePathPrairie);
     end

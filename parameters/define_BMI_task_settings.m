@@ -2,10 +2,10 @@ function [tset] = define_BMI_task_settings()
 
 %Imaging environment file for baseline acquisition
 tset.baseline_env = ...
-    fullfile('G:\VivekNuria\utils', 'Tseries_baseline_15.env');
+    fullfile('E:\Nuria\utils', 'Tseries_baseline_15.env');
 %Imaging environment file for BMI acquisition
 tset.bmi_env = ...
-    fullfile('G:\VivekNuria\utils', 'Tseries_BMI_40.env');
+    fullfile('E:\Nuria\utils', 'Tseries_BMI_40.env');
 
 
 %

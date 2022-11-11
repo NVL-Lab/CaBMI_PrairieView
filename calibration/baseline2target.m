@@ -1,5 +1,5 @@
 function [target_info_path, target_cal_ALL_path, fb_cal] = baseline2target(n_f_file, roi_data_file,  ...
-    E1_base, E2_base, frames_per_reward_range, tset, save_dir, fbset)
+    E1_base, E2_base, frames_per_reward_range, tset, savePath, fbset)
 %{
 4.18.19
 inputs:
@@ -16,7 +16,7 @@ reward is expected.  Used to calibrate the target patterns.
 rolling average, as used during the BMI)
 -dff_win_bool - whether to smooth dff in a window
 -dff_win - number of frames to use for smoothing dff
--save_dir - directory to save baseline results in in.
+-savePath - directory to save baseline results in in.
 -cursor_zscore_bool - if 1, neural activity is zscored before going into
 -cursor calculation. if 0, neural activity is not zscored.  
 -f0_init_slide - if 0, f0 is only used after f0_win samples.  if 1, f0 is
@@ -41,7 +41,7 @@ plot_dff_bool = 1;
 plot_cov_bool = 1; 
 %-
 
-plotPath = fullfile(save_dir, 'plots'); 
+plotPath = fullfile(savePath, 'plots'); 
 if ~exist(plotPath,'dir')
     mkdir(plotPath); 
 end
@@ -92,22 +92,22 @@ E2_sel_idxs = find(E2_sel);
 
 E_base_sel = [E1_base, E2_base];
 
-load(roi_data_file, 'roi_mask'); 
-EnsembleMask = zeros(size(roi_mask));
+load(roi_data_file, 'roi_data'); 
+EnsembleMask = zeros(size(roi_data.roi_mask));
 for indn = 1:length(E1_base)
-    auxmask = roi_mask;
+    auxmask = roi_data.roi_mask;
     auxmask(auxmask~=E1_base(indn)) = 0;
     auxmask(auxmask~=0) = indn;
     EnsembleMask = auxmask + EnsembleMask;
 end
 for indn = 1:length(E2_base)
-    auxmask = roi_mask;
+    auxmask = roi_data.roi_mask;
     auxmask(auxmask~=E2_base(indn)) = 0;
     auxmask(auxmask~=0) = indn + length(E1_base);
     EnsembleMask = auxmask + EnsembleMask;
 end
 strcMask = obtain_Strc_Mask_from_Mask(EnsembleMask);
-save(fullfile(save_dir, 'strcMask.mat'), 'strcMask', 'E_base_sel', 'E_id'); 
+save(fullfile(savePath, 'strcMask.mat'), 'strcMask', 'E_base_sel', 'E_id'); 
 
 
 %%
@@ -460,7 +460,7 @@ saveas(h, fullfile(plotPath, 'target_val_over_calibration.png'));
 % xlabel('alg iteration'); 
 % ylabel('reward per Frame'); 
 % title('Reward Per Frame over Calibration'); 
-% saveas(h, fullfile(save_dir, 'reward_per_frame_over_calibration.png')); 
+% saveas(h, fullfile(savePath, 'reward_per_frame_over_calibration.png')); 
 
 %%
 %Summary results of cal: 
@@ -638,13 +638,13 @@ saveas(h, fullfile(plotPath, 'PSTH_locked_to_hit_baseline.png'));
 %1)All the steps here
 clear h
 date_str = datestr(datetime('now'), 'yyyymmddTHHMMSS'); 
-save_path = fullfile(save_dir, ['target_calibration_ALL_' date_str '.mat']); 
+save_path = fullfile(savePath, ['target_calibration_ALL_' date_str '.mat']); 
 target_cal_ALL_path = save_path; 
 save(save_path); 
 
 %2)Just the target parameters for running BMI
 target_info_file = ['BMI_target_info_' date_str '.mat'];
-save_path = fullfile(save_dir, target_info_file); 
+save_path = fullfile(savePath, target_info_file); 
 target_info_path = save_path; 
 %Change variable names for BMI code:
 T1 = T; %Change to T1, as this is what BMI expects

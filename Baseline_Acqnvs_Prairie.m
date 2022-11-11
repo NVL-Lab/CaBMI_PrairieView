@@ -13,7 +13,7 @@ neuronMask -> matrix for spatial filters with px*py*unit
     %**********************************************************
     dilation_factor = 3; 
     expectedLengthExperiment = ...
-        ceil(tset.calibration.baseline_len*tset.im.frameRate*dilation_factor); 
+        ceil(tset.cb.baseline_len*tset.im.frameRate*dilation_factor); 
     %in frames
     
     %save directory: 
@@ -60,11 +60,11 @@ neuronMask -> matrix for spatial filters with px*py*unit
     pl.SendScriptCommands("-lbs True 0");
     
     %define where to save the file
-    savePathPrairie = fullfile(savePath, "im");
+    savePathPrairie = fullfile(savePath, 'im');
     if ~exist(savePathPrairie, 'dir')
         mkdir(savePathPrairie);
     end
-    savePrairieFiles(savePath, pl, "baseline")
+    savePrairieFiles(savePath, pl, 'baseline')
 
     lastFrame = zeros(px, py); % to compare with new incoming frames
 
