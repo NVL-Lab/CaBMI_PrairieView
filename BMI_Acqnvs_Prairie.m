@@ -444,7 +444,9 @@ function BMI_Acqnvs_Prairie(folder, animal, day, ...
             end
             if deliver_stim
                 if(~debug_bool)
+                    % blue light
                     a.writeDigitalPin("D5", 1); pause(0.1);a.writeDigitalPin("D5",0)
+                    % UV light
                     a.writeDigitalPin("D3", 1); pause(0.1);a.writeDigitalPin("D3",0)
                 end
                 deliver_stim = 0; 

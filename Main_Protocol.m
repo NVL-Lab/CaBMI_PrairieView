@@ -72,7 +72,6 @@ savePath = fullfile(folder, animal,  date, day);
 if ~exist(savePath, 'dir')
     mkdir(savePath);
 end
-path_data.load_path = load_path; 
 path_data.env_dir = env_dir; %contains env files for prairie
 path_data.savePath = savePath; 
 path_data.im = fullfile(savePath, 'im'); %directory for imaging data
