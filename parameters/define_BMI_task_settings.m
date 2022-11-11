@@ -10,7 +10,7 @@ tset.bmi_env = ...
 
 %
 %% imaging
-tset.im.frameRate                    = 29.989; 
+tset.im.frameRate                    = 29.752; 
 tset.im.zoom                         = 1.5; 
 tset.im.posz                         = 0;
 tset.im.chan_data                    = struct('label', 'g', ...

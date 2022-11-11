@@ -235,6 +235,10 @@ function BMI_Acqnvs_Prairie(folder, animal, day, ...
     end
     data.frame = 1;
     
+    % give random reward to trigger the jetball
+    a.writeDigitalPin("D9", 1); pause(1);a.writeDigitalPin("D9",0)
+    
+    
     disp('STARTING RECORDING!!!')
     counterSame = 0; %Counts how many frames are the same as past,
     counterSameThresh = 500;
@@ -433,14 +437,15 @@ function BMI_Acqnvs_Prairie(folder, animal, day, ...
             
             if deliver_water 
                 if(~debug_bool)
-                    outputSingleScan(s,ni_reward); pause(0.001); outputSingleScan(s,ni_out);
+                    a.writeDigitalPin("D9", 1); pause(1);a.writeDigitalPin("D9",0)
                 end
                 deliver_water = 0; 
                 disp('water delivered!'); 
             end
             if deliver_stim
                 if(~debug_bool)
-                    outputSingleScan(s,ni_holo); pause(0.001); outputSingleScan(s,ni_out)
+                    a.writeDigitalPin("D5", 1); pause(0.1);a.writeDigitalPin("D5",0)
+                    a.writeDigitalPin("D3", 1); pause(0.1);a.writeDigitalPin("D3",0)
                 end
                 deliver_stim = 0; 
                 disp('stim delivered!');

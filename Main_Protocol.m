@@ -4,7 +4,6 @@ Nuria:
 - create the environments for tseries 15 and 40 (for baseline and BMI)
 - the CD make it a path from settings
 - find the best variables for kenichi in task_settins.image
-- Check in baseline_ack and bmi_ack the nidaq
 - check that cleaning saves the baseline
 - check sec_per_reward_range is very low (only 1 every 2 min!)
 - check that the calibration works well with only C1! and then remove c2
@@ -15,22 +14,15 @@ also in dff2cursor_target
 - check data type in computer?
 - check first alone, then with a mouse if the stim of d1r fucks up the pmts
 - chanching everything to single, check that it doesn't give problems!
-- check how to do the stims, arduino also? I think so, but double check
-- check how to get when the frames comes, this may be important!
-- make sure that outputSingleScan is working if going with nidaq, otherwise
-- how long does the stim need to be active?
-maybe try arduino for this too?
 
-and c3
+
 in 'define_BMI_tset()'
 - define the folder paths!
 - check the framerate for what I want
-- check the arduino is working and where the cOMM is, and the PIN etc
 in 'define_and_load_bmi_paths()'
 - change the paths
 in BMI_Acqnvs_Prairie
 - change the paths
-- nidaq?
 - play tone for reward?
 
 %}
@@ -48,14 +40,18 @@ the nidaq sends a quick pulse to synchronize each BMI frame
 for that we also use voltage recording to get each Prairie-view frame
 voltage rec samples/sec min 1000, time(ms) > time_t_series
 
+Need to start the Doric software
+- add both channels
+- select ttl trigger for both
+- amplitude will be: blue (d5):    and UV (d3):
 %}
 
-%% DEFINE PATHS
+%% DEFINE PATHS and parameters
 %--------------------------------------------------------------------------
 %DO:
 %Input 'folder', as directory to write to.
 %--------------------------------------------------------------------------
-[tset] = define_BMI_tset();
+[tset] = define_BMI_task_settings();
 [fbset]   = define_fb_audio_settings();
 %Initialize arduino:
 if(fbset.fb_bool) 
@@ -64,34 +60,25 @@ else
     a = [];
 end
 
-cd G:\VivekNuria\Code\HoloBMI
 %DEFINE PATH_DATA: 
-%
-%LOAD PATHS: 
-load_path = define_and_load_bmi_paths();
 
 %SAVE PATHS: 
-home_dir = 'G:\VivekNuria\Code\HoloBMI';
-cd(home_dir)
-env_dir = 'G:\VivekNuria\utils';
+env_dir = 'E:\Nuria\utils';
 
 % define Animal, day and folder where to save
-animal = 'NVI17'; day = 'D19';
-folder = 'E:\holobmi_E\191123';
-savePath = fullfile(folder, animal,  day);
+animal = 'NVI17'; day = 'D19'; date = '221111';
+folder = 'E:\D1BMI\';
+savePath = fullfile(folder, animal,  date, day);
 if ~exist(savePath, 'dir')
     mkdir(savePath);
 end
 path_data.load_path = load_path; 
-path_data.home_dir = home_dir; %home_dir
 path_data.env_dir = env_dir; %contains env files for prairie
 path_data.savePath = savePath; 
 path_data.im = fullfile(savePath, 'im'); %directory for imaging data
 if ~exist(path_data.im, 'dir')
     mkdir(path_data.im);
 end
-
-connectivity_bool = 0;
 
 %% Get pixel values from prairie
 
@@ -357,7 +344,8 @@ end
 
 %% run BMI
 %--------------------------------------------------------------------------
-
+% DO!!!
+% rename the file in the jetball computer!
 % OPTIONAL: Get baseValSeed from previous BMI!  load file, take the last valid
 % %baseVal
 % % load_baseVal = 0; 

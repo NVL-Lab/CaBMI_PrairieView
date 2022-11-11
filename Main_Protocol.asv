@@ -4,8 +4,6 @@ Nuria:
 - create the environments for tseries 15 and 40 (for baseline and BMI)
 - the CD make it a path from settings
 - find the best variables for kenichi in task_settins.image
-- how do I know when an image comes?
-- Check in baseline_ack and bmi_ack the nidaq
 - check that cleaning saves the baseline
 - check sec_per_reward_range is very low (only 1 every 2 min!)
 - check that the calibration works well with only C1! and then remove c2
@@ -16,22 +14,15 @@ also in dff2cursor_target
 - check data type in computer?
 - check first alone, then with a mouse if the stim of d1r fucks up the pmts
 - chanching everything to single, check that it doesn't give problems!
-- check how to do the stims, arduino also? I think so, but double check
-- check how to get when the frames comes, this may be important!
-- make sure that outputSingleScan is working if going with nidaq, otherwise
-- how long does the stim need to be active?
-maybe try arduino for this too?
 
-and c3
+
 in 'define_BMI_tset()'
 - define the folder paths!
 - check the framerate for what I want
-- check the arduino is working and where the cOMM is, and the PIN etc
 in 'define_and_load_bmi_paths()'
 - change the paths
 in BMI_Acqnvs_Prairie
 - change the paths
-- nidaq?
 - play tone for reward?
 
 %}
@@ -40,7 +31,7 @@ in BMI_Acqnvs_Prairie
 make sure the BNCs are connected properly
 - PCI-AI0 goes to NIDAQ -> P0.1
 - PCI-AI1 goes to PFI8 with a T-BNC
-the arduino is aswell
+the arduino
 atm the arduino is sending the activation of the light stim
 - digital pin D5 is blue
 - digital pin D3 is UV
@@ -49,9 +40,13 @@ the nidaq sends a quick pulse to synchronize each BMI frame
 for that we also use voltage recording to get each Prairie-view frame
 voltage rec samples/sec min 1000, time(ms) > time_t_series
 
+Need to start the Doric software
+- add both channels
+- select ttl trigger for both
+- amplitude will be: blue (d5):    and UV (d3):
 %}
 
-%% DEFINE PATHS
+%% DEFINE PATHS and parameters
 %--------------------------------------------------------------------------
 %DO:
 %Input 'folder', as directory to write to.
@@ -65,14 +60,10 @@ else
     a = [];
 end
 
-cd G:\VivekNuria\Code\HoloBMI
 %DEFINE PATH_DATA: 
-%
-%LOAD PATHS: 
-load_path = define_and_load_bmi_paths();
 
 %SAVE PATHS: 
-home_dir = 'G:\VivekNuria\Code\HoloBMI';
+home_dir = 'E:\Nuria\Code\HoloBMI';
 cd(home_dir)
 env_dir = 'G:\VivekNuria\utils';
 
