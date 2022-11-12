@@ -1,6 +1,5 @@
-function BMI_Acqnvs_Prairie(path_data, ...
-    expt_str, baselineCalibrationFile, frameRate, vector_stim, ...
-    cursor_zscore_bool, debug_bool, debug_input, baseValSeed, fb_bool, fb_cal, a)
+function BMI_Acqnvs_Prairie(path_data, expt_str, baselineCalibrationFile, tset, vector_stim, ...
+    debug_bool, debug_input, baseValSeed, fb_bool, fb_cal, a)
     %{
     Function to acquire the BMI in a prairie scope
     animal -> animal for the experiment
@@ -90,13 +89,13 @@ function BMI_Acqnvs_Prairie(path_data, ...
   
     
     %% BMI parameters 
-    %frameRate = 30; % TODO check if it can be obtained from prairie 
+    %tset.im.frameRate = 30; % TODO check if it can be obtained from prairie 
     relaxationTime = 0;  % there can't be another hit in this many sec
     %back2Base = 1/2*bData.T1; % cursor must be under this value to be able to hit again
 
     % values of parameters in frames
-    expectedLengthExperiment = 60*40*frameRate; % in frames
-    relaxationFrames = round(relaxationTime * frameRate);
+    expectedLengthExperiment = 60*40*tset.im.frameRate; % in frames
+    relaxationFrames = round(relaxationTime * tset.im.frameRate);
     
     %% Load BMI parameters from baseline calibration
     bData = load(fullfile(baselineCalibrationFile));
@@ -259,7 +258,7 @@ function BMI_Acqnvs_Prairie(path_data, ...
             if nonBufferUpdateCounter == 0
                 % obtain value of the neurons fluorescence
                 if(~debug_bool)
-                    unitVals = obtainRoi(Im, strcMask); % function to obtain Rois values
+                    unitVals = obtain_Roi(Im, strcMask); % function to obtain Rois values
                 else
                     unitVals = debug_input(:,data.frame); 
                 end
@@ -306,7 +305,7 @@ function BMI_Acqnvs_Prairie(path_data, ...
                     dff = (Fsmooth - baseval) ./ baseval;
                     %Passing smoothed dff to "decoder"
                     [~, cursor_i, target_hit, c1_bool, c2_val, c2_bool, c3_val, c3_bool] = ...
-                        dff2cursor_target(dff, bData, cursor_zscore_bool);
+                        dff2cursor_target(dff, bData, tset.cursor_zscore_bool);
 %                     data.bmidffz(:,data.frame) = dff_z;
 %--------------------------------------------------------------------------
                     disp(['Cursor: ' num2str(cursor_i)]); 
@@ -451,8 +450,8 @@ function BMI_Acqnvs_Prairie(path_data, ...
             data.frame = data.frame + 1;
             data.timeVector(data.frame) = toc;
             counterSame = 0;
-            if (~debug_bool && data.timeVector(data.frame) < 1/(frameRate*1.2))
-                pause(1/(frameRate*1.2) - data.timeVector(data.frame))
+            if (~debug_bool && data.timeVector(data.frame) < 1/(tset.im.frameRate*1.2))
+                pause(1/(tset.im.frameRate*1.2) - data.timeVector(data.frame))
             end
         else
             counterSame = counterSame + 1;

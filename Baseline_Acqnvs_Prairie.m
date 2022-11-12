@@ -84,6 +84,7 @@ neuronMask -> matrix for spatial filters with px*py*unit
     %start the time_series scan
     %May need to put a break point on the next line, sometimes prairie
     %won't start scanning on it:
+    pause(2); 
     pl.SendScriptCommands("-ts");  
     disp('sent -ts, pausing'); 
     pause(5);  %empirically discovered time for the prairie to start gears

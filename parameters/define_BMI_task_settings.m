@@ -39,7 +39,7 @@ tset.roi.finemode                   = 1; %imTemplateMatch will be used instead o
 tset.roi.temmode                    = 1;  % 0 is for full circle (soma) 1 is for donuts (membrane)
 
 %% calibration:  
-tset.cb.sec_per_reward_range   = [100 70]; 
+tset.cb.sec_per_reward_range   = [70 50];  %[100 70]; % [120 90] 
 tset.cb.baseline_len           = 7.5*60; %seconds
 tset.cb.f0_win_bool            = 1; %during cb, 
 %estimate f0 using the window
@@ -55,7 +55,7 @@ tset.bmi_len                   = 40*60; %seconds
 tset.prefix_win                = 100; 
 %set this to 'nonBufferUpdateCounter', 'initFrameBase', number samples to ignore at start of bmi acqn
 
-tset.f0_win                    = 2*60*ceil(tset.im.frameRate); 
+tset.f0_win                    = 1*60*ceil(tset.im.frameRate); 
 %Period at the beginning without BMI to establish BL 
 
 tset.dff_win                   = 10; 

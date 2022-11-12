@@ -680,9 +680,8 @@ function [fb_cal] = define_fb_calibration(cursor_obs, fbset, T)
 %Assumes cursor = E2-E1, and cursor_target is positive.
 %Maps cursor to auditory feedback.
 % freq = a*exp(b*(cursor_trunc-cursor_min))
-fb_cal.settings.target_low_freq = fbset.target_low_freq;
-fb_cal.settings.freq_min = fbset.freq_min;
-fb_cal.settings.freq_max = fbset.freq_max;
+fb_cal.settings = fbset;
+
 %Calculate:
 fb_cal.cursor_min         = prctile(cursor_obs, fbset.min_perctile); 
 %min(cursor_obs); %for fb, cursor is ceil to this value
