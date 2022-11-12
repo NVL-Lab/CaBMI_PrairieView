@@ -25,9 +25,16 @@ tset.im.chan_data                    = struct('label', 'g', ...
 % finemode = 1; %imTemplateMatch will be used instead of normxcorr2. It will be slower.
 % temmode = 0;  % 0 is for full circle (soma) 1 is for donuts (membrane)
 % Following were for zoom=1.5 on bruker soma
-tset.roi.template_diam              = 15; %diamter of difference of Gaussians in pixels
-tset.roi.thres                      = 0.6; %cell detection threshold as correlation coefficient
-tset.roi.cell_diam                  = 14; %CELL_DIAM is diameter used for dilation.
+% tset.roi.template_diam              = 15; %diamter of difference of Gaussians in pixels
+% tset.roi.thres                      = 0.5; %cell detection threshold as correlation coefficient
+% tset.roi.cell_diam                  = 13; %CELL_DIAM is diameter used for dilation.
+% tset.roi.finemode                   = 1; %imTemplateMatch will be used instead of normxcorr2. It will be slower.
+% tset.roi.temmode                    = 1;  % 0 is for full circle (soma) 1 is for donuts (membrane)
+
+% the following were for zoom= 1 on bruker soma
+tset.roi.template_diam              = 11; %diamter of difference of Gaussians in pixels
+tset.roi.thres                      = 0.5; %cell detection threshold as correlation coefficient
+tset.roi.cell_diam                  = 7; %CELL_DIAM is diameter used for dilation.
 tset.roi.finemode                   = 1; %imTemplateMatch will be used instead of normxcorr2. It will be slower.
 tset.roi.temmode                    = 1;  % 0 is for full circle (soma) 1 is for donuts (membrane)
 

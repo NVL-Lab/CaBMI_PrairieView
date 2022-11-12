@@ -1,4 +1,4 @@
-function [mat_path] = Baseline_Acqnvs_Prairie(folder, animal, day, roi_mask, tset)
+function [mat_path] = Baseline_Acqnvs_Prairie(path_data, roi_mask, tset)
  %{
 Function to acquire the baseline in a prairie scope
 animal -> animal for the experiment
@@ -17,13 +17,9 @@ neuronMask -> matrix for spatial filters with px*py*unit
     %in frames
     
     %save directory: 
-    savePath = fullfile(folder, animal,  day);
-    if ~exist(savePath, 'dir')
-        mkdir(savePath);
-    end
     %mat file: 
     mat_path = ...
-        fullfile(savePath, ['BaselineOnline' datestr(datetime('now'), 'yymmddTHHMMSS') '.mat']);
+        fullfile(path_data.savePath, ['BaselineOnline' datestr(datetime('now'), 'yymmddTHHMMSS') '.mat']);
     
 
     %%
@@ -34,7 +30,7 @@ neuronMask -> matrix for spatial filters with px*py*unit
     global pl baseActivity
     
     %% Cleaning 
-    finishup = onCleanup(@() clean_Me_Up(mat_path));  %in case of ctrl-c it will launch cleanmeup
+    finishup = onCleanup(@() cleanMeUp(mat_path));  %in case of ctrl-c it will launch cleanmeup
 
     %% Prepare the nidaq
     s = daq.createSession('ni');
@@ -60,16 +56,16 @@ neuronMask -> matrix for spatial filters with px*py*unit
     pl.SendScriptCommands("-lbs True 0");
     
     %define where to save the file
-    savePathPrairie = fullfile(savePath, 'im');
+    savePathPrairie = fullfile(path_data.savePath, 'im');
     if ~exist(savePathPrairie, 'dir')
         mkdir(savePathPrairie);
     end
-    savePrairieFiles(savePath, pl, 'baseline')
+    savePrairieFiles(path_data.savePath, pl, 'baseline')
 
     lastFrame = zeros(px, py); % to compare with new incoming frames
 
     % set the environment for the Time Series in PrairieView
-    loadCommand = "-tsl " + tset.baseline_env
+    loadCommand = "-tsl " + path_data.baseline_env;
     pl.SendScriptCommands(loadCommand);  
     
     %% Load and initialize Baseline variables
@@ -112,11 +108,12 @@ neuronMask -> matrix for spatial filters with px*py*unit
         end
 
     end
+    disp('Finished baseline')
    % pl.Disconnect();
 
 end
 
-function clean_Me_Up(mat_path)
+function cleanMeUp(mat_path)
     global pl baseActivity
     disp('cleaning')
     % evalin('base','save baseVars.mat'); %do we want to save workspace?

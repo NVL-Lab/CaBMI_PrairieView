@@ -247,8 +247,8 @@ plot_Neurons_Baseline(baseActivity, CComp, YrA, totalneurons)
 
 %% Select MANUALLY ensemble neurons
 %Manually enter and confirm the BMI neurons:
-E1_base = sort([2 5], 'ascend'); 
-E2_base = sort([3 4], 'ascend'); 
+E2_base = sort([1 2], 'ascend'); 
+E1_base = sort([3 4], 'ascend'); 
 ensembleNeurons = [E1_base, E2_base];
 plot_Neurons_Ensemble(baseActivity, ensembleNeurons, [ones(1,length(E1_base)) 2*ones(1,length(E2_base))])
 select_roi_data(roi_data, [unique(E2_base), unique(E1_base)]); 

@@ -1,4 +1,4 @@
-function BMI_Acqnvs_Prairie(folder, animal, day, ...
+function BMI_Acqnvs_Prairie(path_data, ...
     expt_str, baselineCalibrationFile, frameRate, vector_stim, ...
     cursor_zscore_bool, debug_bool, debug_input, baseValSeed, fb_bool, fb_cal, a)
     %{
@@ -17,7 +17,7 @@ function BMI_Acqnvs_Prairie(folder, animal, day, ...
     vector_stim -> vector of scheduled stims
 
     Flag description:
-    flagBMI: 
+    flagBMI: addDigitalChannel
         determines if code detects self-generated target neural patterns
     flagDRstim: 
         determines if target neural patterns triggers DR stim
@@ -94,10 +94,6 @@ function BMI_Acqnvs_Prairie(folder, animal, day, ...
     relaxationTime = 0;  % there can't be another hit in this many sec
     %back2Base = 1/2*bData.T1; % cursor must be under this value to be able to hit again
 
-    savePath = fullfile(folder, animal, day); %[folder, animal, '/',  day, '/'];
-    if ~exist(savePath, 'dir')
-        mkdir(savePath);
-    end
     % values of parameters in frames
     expectedLengthExperiment = 60*40*frameRate; % in frames
     relaxationFrames = round(relaxationTime * frameRate);
@@ -171,7 +167,7 @@ function BMI_Acqnvs_Prairie(folder, animal, day, ...
     backtobaselineFlag = 0;
     
     %% Cleaning 
-    finishup = onCleanup(@() cleanMeUp(savePath, bData, debug_bool));  %in case of ctrl-c it will launch cleanmeup
+    finishup = onCleanup(@() cleanMeUp(path_data.savePath, bData, debug_bool));  %in case of ctrl-c it will launch cleanmeup
 
 %     %% Prepare the nidaq
     if(~debug_bool)
@@ -203,22 +199,21 @@ function BMI_Acqnvs_Prairie(folder, animal, day, ...
         lastFrame = zeros(px, py); % to compare with new incoming frames
 
         % set the environment for the Time Series in PrairieView
-        loadCommand = ['-tsl ' fullfile('G:/VivekNuria/utils', 'Tseries_VivekNuria_40.env')];
+        loadCommand = ['-tsl ' path_data.bmi_env];
         pl.SendScriptCommands(loadCommand);   
 
         % set the path where to store the imaging data -SetSavePath (-p) "path" ["addDateTime"]
-        savePrairieFiles(savePath, pl, expt_str)  
+        savePrairieFiles(path_data.savePath, pl, expt_str)  
     else
         px = 512; 
         py = 512; 
         lastFrame = zeros(px, py); % to compare with new incoming frames
-        Im = zeros(px, py); 
     end
     
     
     %% load masks
     if(~debug_bool)
-        load(fullfile(savePath, 'strcMask.mat'), 'strcMask');
+        load(fullfile(path_data.savePath, 'strcMask.mat'), 'strcMask');
     end
 
     %%
@@ -445,9 +440,9 @@ function BMI_Acqnvs_Prairie(folder, animal, day, ...
             if deliver_stim
                 if(~debug_bool)
                     % blue light
-                    a.writeDigitalPin("D5", 1); pause(0.1);a.writeDigitalPin("D5",0)
+                    a.writeDigitalPin("D5", 1); pause(0.2);a.writeDigitalPin("D5",0)
                     % UV light
-                    a.writeDigitalPin("D3", 1); pause(0.1);a.writeDigitalPin("D3",0)
+                    a.writeDigitalPin("D3", 1); pause(1);a.writeDigitalPin("D3",0)
                 end
                 deliver_stim = 0; 
                 disp('stim delivered!');
@@ -471,7 +466,6 @@ end
 function cleanMeUp(savePath, bData, debug_bool)
     global pl data
     disp('cleaning')
-    % evalin('base','save baseVars.mat'); %do we want to save workspace?
     % saving the global variables
     save(fullfile(savePath, ['BMI_online', datestr(datetime('now'), 'yymmddTHHMMSS'), '.mat']), 'data', 'bData')
     if ~debug_bool
