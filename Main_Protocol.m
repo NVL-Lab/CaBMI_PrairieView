@@ -53,7 +53,7 @@ end
 env_dir = 'E:\Nuria\utils';
 
 % define Animal, day and folder where to save
-animal = 'test'; day = 'D01'; date = '221111';
+animal = 'ago17'; day = 'D01'; date = '221112';
 folder = 'E:\D1agoBMI\';
 % define experiment type
 expt_str = 'BMI_stim'; % or 'RandomDRstim' or 'no_stim' or 'BMI_no_stim_water' or 'BMI_stim_water' or 'BMI_random_stim_water'
@@ -125,9 +125,8 @@ close all;
 %Defaults to the last image in 'im_sc_struct'
 im_bg = im_sc_struct(end).im; 
 h = figure;
-imagesc(im_bg); 
+imagesc(im_bg), colormap bone, caxis([-0 nanmean(nanmean(im_bg(:)))*4])
 axis square
-colormap('gray'); 
 title('selected background image for identifying ROI'); 
 %PLOT_IMAGES data:
 %'plot_images' contains a set of images so user can tell if ROI selection is
@@ -223,7 +222,7 @@ save(roi_data_file, 'plot_images', 'im_sc_struct', 'roi_data');
 %% Baseline acquisition
 % Baseline environment already sets the reps to 27000
 % CAREFUL that the voltage rec doesn't go to crazy places
-base_mat_path = Baseline_Acqnvs_Prairie(path_data, roi_data.roi_mask, tset);
+base_mat_path = Baseline_Acqnvs_Prairie(path_data, roi_data.roi_mask, tset, a, fbset.arduino.pin);
 % saves in [savePath, 'baselineActivity'] the activity of all the
 
 %--------------------------------------------------------------------------
@@ -248,8 +247,8 @@ plot_Neurons_Baseline(baseActivity, CComp, YrA, totalneurons)
 
 %% Select MANUALLY ensemble neurons
 %Manually enter and confirm the BMI neurons:
-E1_base = sort([2 5], 'ascend'); 
-E2_base = sort([3 4], 'ascend'); 
+E1_base = sort([1 12], 'ascend'); 
+E2_base = sort([5 15], 'ascend'); 
 ensembleNeurons = [E1_base, E2_base];
 plot_Neurons_Ensemble(baseActivity, ensembleNeurons, [ones(1,length(E1_base)) 2*ones(1,length(E2_base))])
 select_roi_data(roi_data, [unique(E2_base), unique(E1_base)]); 

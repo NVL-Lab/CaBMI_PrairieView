@@ -40,7 +40,7 @@ tset.roi.temmode                    = 1;  % 0 is for full circle (soma) 1 is for
 
 %% calibration:  
 tset.cb.sec_per_reward_range   = [70 50];  %[100 70]; % [120 90] 
-tset.cb.baseline_len           = 7.5*60; %seconds
+tset.cb.baseline_len           = 15*60; %seconds
 tset.cb.f0_win_bool            = 1; %during cb, 
 %estimate f0 using the window
 tset.cb.dff_win_bool           = 1;
@@ -52,7 +52,7 @@ tset.cb.E2mE1_prctile          = 98;
 
 %% bmi: 
 tset.bmi_len                   = 40*60; %seconds
-tset.prefix_win                = 100; 
+tset.prefix_win                = 40; 
 %set this to 'nonBufferUpdateCounter', 'initFrameBase', number samples to ignore at start of bmi acqn
 
 tset.f0_win                    = 1*60*ceil(tset.im.frameRate); 

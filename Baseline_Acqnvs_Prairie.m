@@ -1,4 +1,4 @@
-function [mat_path] = Baseline_Acqnvs_Prairie(path_data, roi_mask, tset)
+function [mat_path] = Baseline_Acqnvs_Prairie(path_data, roi_mask, tset, a, apin)
  %{
 Function to acquire the baseline in a prairie scope
 animal -> animal for the experiment
@@ -11,7 +11,7 @@ neuronMask -> matrix for spatial filters with px*py*unit
     %**********************************************************
     %****************  PARAMETERS  ****************************
     %**********************************************************
-    dilation_factor = 3; 
+    dilation_factor = 2; 
     expectedLengthExperiment = ...
         ceil(tset.cb.baseline_len*tset.im.frameRate*dilation_factor); 
     %in frames
@@ -38,6 +38,10 @@ neuronMask -> matrix for spatial filters with px*py*unit
     ni_out = [0 0 0]; 
     outputSingleScan(s,ni_out);%set   
     ni_getimage = [0 1 0]; 
+    
+    %% prepare the arduino
+    % give random reward to trigger the jetball
+    a.writeDigitalPin("D9", 1); pause(1);a.writeDigitalPin("D9",0)
 
     %% Prepare for Prairie
     % connection to Prairie
@@ -110,6 +114,7 @@ neuronMask -> matrix for spatial filters with px*py*unit
 
     end
     disp('Finished baseline')
+    playTone(a, apin, 7000, 1)
    % pl.Disconnect();
 
 end

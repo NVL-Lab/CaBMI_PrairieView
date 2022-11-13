@@ -60,11 +60,11 @@ end
 
 %
 h = figure('Position', [screen_size(3)/2 1 screen_size(3)/2 screen_size(4)]);
-imagesc(roi_data.im_bg); axis square
+imagesc(roi_data.im_bg), caxis([-0 nanmean(nanmean(im_bg(:)))*2]); axis square
 title('Background Image'); 
 %
 h = figure('Position', [screen_size(3)/2 1 screen_size(3)/2 screen_size(4)]);
-imagesc(roi_data.im_roi); axis square
+imagesc(roi_data.im_roi), caxis([-0 nanmean(nanmean(im_bg(:)))*2]); axis square
 title(['Num ROI: ' num2str(roi_data.num_rois)]); 
 
 

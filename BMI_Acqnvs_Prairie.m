@@ -153,7 +153,7 @@ function BMI_Acqnvs_Prairie(path_data, expt_str, baselineCalibrationFile, tset, 
      
     data.trialCounter = 0; %todo remove one
     trialFlag = 1;
-    nonBufferUpdateCounter = 40;  %counter when we dont want to update the buffer: 
+    nonBufferUpdateCounter = tset.prefix_win;  %counter when we dont want to update the buffer: 
     initFrameBase = nonBufferUpdateCounter + 1;
     %beginning of experiment and VTA stim
     BufferUpdateCounter = 0;
