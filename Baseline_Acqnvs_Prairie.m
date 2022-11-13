@@ -38,10 +38,6 @@ neuronMask -> matrix for spatial filters with px*py*unit
     ni_out = [0 0 0]; 
     outputSingleScan(s,ni_out);%set   
     ni_getimage = [0 1 0]; 
-    
-    %% prepare the arduino
-    % give random reward to trigger the jetball
-    a.writeDigitalPin("D9", 1); pause(1);a.writeDigitalPin("D9",0)
 
     %% Prepare for Prairie
     % connection to Prairie
@@ -80,6 +76,11 @@ neuronMask -> matrix for spatial filters with px*py*unit
     strcMask = obtain_Strc_Mask_from_Mask(roi_mask);    
     
     baseActivity = zeros(numberNeurons, expectedLengthExperiment) + nan;
+    
+    %% prepare the arduino
+    % give random reward to trigger the jetball
+    a.writeDigitalPin("D9", 1); pause(1);a.writeDigitalPin("D9",0)
+    
     %% 
     %************************************************************************
     %*************************** RUN ********************************

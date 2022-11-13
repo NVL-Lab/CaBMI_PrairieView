@@ -1,14 +1,6 @@
 %%%TODO'S!!!!
 %{
 Nuria:
-also in dff2cursor_target
-- check data type in computer?
-- check with a mouse if the stim of d1r fucks up the pmts
-- chanching everything to single, check that it doesn't give problems!
-
-future TODO
-- add more than one roi simultaneously
-
 To consider
 - at the moment only C1 to define hits, simpler BMI
 
@@ -53,10 +45,12 @@ end
 env_dir = 'E:\Nuria\utils';
 
 % define Animal, day and folder where to save
-animal = 'ago17'; day = 'D01'; date = '221112';
+animal = 'ago13'; day = 'D02'; date = '221113';
 folder = 'E:\D1agoBMI\';
 % define experiment type
-expt_str = 'BMI_stim'; % or 'RandomDRstim' or 'no_stim' or 'BMI_no_stim_water' or 'BMI_stim_water' or 'BMI_random_stim_water'
+% expt_str = 'BMI_stim'; % or 'RandomDRstim' or 'no_stim' or 'BMI_no_stim_water' or 'BMI_stim_water' or 'BMI_random_stim_water'
+expt_str = 'Behavior';
+% if motor behavior experiment, jump to end after runing this section
 
 savePath = fullfile(folder, animal,  date, day);
 if ~exist(savePath, 'dir')
@@ -374,3 +368,7 @@ BMI_Acqnvs_Prairie(path_data, expt_str, baselineCalibrationFile, tset, vector_st
 
 %1) SAVE THE WORKSPACE IN FOLDER
 %2) SAVE THIS Protocol script IN FOLDER (savePath)
+
+
+%% if motor behavior experiment, run
+check_motor_behavior(a, path_data, tset, expt_str)
