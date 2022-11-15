@@ -94,7 +94,7 @@ function BMI_Acqnvs_Prairie(path_data, expt_str, baselineCalibrationFile, tset, 
     %back2Base = 1/2*bData.T1; % cursor must be under this value to be able to hit again
 
     % values of parameters in frames
-    expectedLengthExperiment = 60*40*tset.im.frameRate; % in frames
+    expectedLengthExperiment = 60*30*tset.im.frameRate; % in frames
     relaxationFrames = round(relaxationTime * tset.im.frameRate);
     
     %% Load BMI parameters from baseline calibration
@@ -195,8 +195,6 @@ function BMI_Acqnvs_Prairie(path_data, expt_str, baselineCalibrationFile, tset, 
         pl.SendScriptCommands('-srd True 0');
         pl.SendScriptCommands('-lbs True 0');
 
-        lastFrame = zeros(px, py); % to compare with new incoming frames
-
         % set the environment for the Time Series in PrairieView
         loadCommand = ['-tsl ' path_data.bmi_env];
         pl.SendScriptCommands(loadCommand);   
@@ -206,10 +204,9 @@ function BMI_Acqnvs_Prairie(path_data, expt_str, baselineCalibrationFile, tset, 
     else
         px = 512; 
         py = 512; 
-        lastFrame = zeros(px, py); % to compare with new incoming frames
     end
     
-    
+    lastFrame = zeros(px, py); 
     %% load masks
     if(~debug_bool)
         load(fullfile(path_data.savePath, 'strcMask.mat'), 'strcMask');

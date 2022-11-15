@@ -1,4 +1,4 @@
-function check_motor_behavior(a, path_data, tset, expt_str)
+function check_motor_behavior(a, path_data, tset, expt_str, apin)
 %{
     Function to check the behavior of the animal while also recording activity
 %}
@@ -41,7 +41,8 @@ function check_motor_behavior(a, path_data, tset, expt_str)
     disp('sent -ts, pausing'); 
     pause(5);  %empirically discovered time for the prairie to start gears
     counterSame = 0;
-    disp('Starting baseline acquisition')
+    lastFrame = zeros(px, py); 
+    disp('Starting behavior acquisition')
     while counterSame < 500
         Im = pl.GetImage_2(tset.im.chan_data.chan_idx, px, py);
         if ~isequal(Im,lastFrame)   
@@ -52,7 +53,7 @@ function check_motor_behavior(a, path_data, tset, expt_str)
         end
 
     end
-    disp('Finished baseline')
+    disp('Finished behavior')
     playTone(a, apin, 7000, 1)
    % pl.Disconnect();
 

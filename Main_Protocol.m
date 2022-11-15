@@ -1,7 +1,7 @@
 %%%TODO'S!!!!
 %{
 Nuria:
-To consider
+To consideria
 - at the moment only C1 to define hits, simpler BMI
 
 %}
@@ -22,7 +22,7 @@ voltage rec samples/sec min 1000, time(ms) > time_t_series
 Need to start the Doric software
 - add both channels
 - select ttl trigger for both
-- amplitude will be: blue (d5):    and UV (d3):
+- amplitude will be: blue (d5): 15-18   and UV (d3): 70-150
 %}
 
 %% DEFINE PATHS and parameters
@@ -45,11 +45,12 @@ end
 env_dir = 'E:\Nuria\utils';
 
 % define Animal, day and folder where to save
-animal = 'ago13'; day = 'D02'; date = '221113';
+animal = 'ago15'; day = 'D04'; date = '221115';
 folder = 'E:\D1agoBMI\';
 % define experiment type
-% expt_str = 'BMI_stim'; % or 'RandomDRstim' or 'no_stim' or 'BMI_no_stim_water' or 'BMI_stim_water' or 'BMI_random_stim_water'
-expt_str = 'Behavior';
+expt_str = 'RandomDRstim'; % or 'RandomDRstim' or 'no_stim' or 'BMI_no_stim_water' or 'BMI_stim_water' or 'BMI_random_stim_water'
+% expt_str = 'Behavior';
+% expt_str = 'BMI_stim';
 % if motor behavior experiment, jump to end after runing this section
 
 savePath = fullfile(folder, animal,  date, day);
@@ -241,8 +242,8 @@ plot_Neurons_Baseline(baseActivity, CComp, YrA, totalneurons)
 
 %% Select MANUALLY ensemble neurons
 %Manually enter and confirm the BMI neurons:
-E1_base = sort([1 12], 'ascend'); 
-E2_base = sort([5 15], 'ascend'); 
+E1_base = sort([6 7], 'ascend'); 
+E2_base = sort([2 3], 'ascend'); 
 ensembleNeurons = [E1_base, E2_base];
 plot_Neurons_Ensemble(baseActivity, ensembleNeurons, [ones(1,length(E1_base)) 2*ones(1,length(E2_base))])
 select_roi_data(roi_data, [unique(E2_base), unique(E1_base)]); 
@@ -313,7 +314,7 @@ close all
 % - if seedBase 0, we wait for baseline before starting stims
 %--------------------------------------------------------------------------
 
-expectedLengthExperiment = 40*60*tset.im.frameRate ;
+expectedLengthExperiment = 30*60*tset.im.frameRate ;
 
 % IHSImean, IHSIrange 
 [vector_stim, ISI] = create_Vector_random_stim(tset.im.frameRate , expectedLengthExperiment, tset.rs.IHSImean, tset.rs.IHSIrange, false);
@@ -371,4 +372,4 @@ BMI_Acqnvs_Prairie(path_data, expt_str, baselineCalibrationFile, tset, vector_st
 
 
 %% if motor behavior experiment, run
-check_motor_behavior(a, path_data, tset, expt_str)
+check_motor_behavior(a, path_data, tset, expt_str, fbset.arduino.pin)

@@ -5,7 +5,7 @@ tset.baseline_env = ...
     fullfile('E:\Nuria\utils', 'Tseries_baseline_15.env');
 %Imaging environment file for BMI acquisition
 tset.bmi_env = ...
-    fullfile('E:\Nuria\utils', 'Tseries_BMI_40.env');
+    fullfile('E:\Nuria\utils', 'Tseries_BMI_30.env');
 
 
 %
@@ -33,7 +33,7 @@ tset.im.chan_data                    = struct('label', 'g', ...
 
 % the following were for zoom= 1 on bruker soma
 tset.roi.template_diam              = 11; %diamter of difference of Gaussians in pixels
-tset.roi.thres                      = 0.5; %cell detection threshold as correlation coefficient
+tset.roi.thres                      = 0.4; %cell detection threshold as correlation coefficient
 tset.roi.cell_diam                  = 7; %CELL_DIAM is diameter used for dilation.
 tset.roi.finemode                   = 1; %imTemplateMatch will be used instead of normxcorr2. It will be slower.
 tset.roi.temmode                    = 1;  % 0 is for full circle (soma) 1 is for donuts (membrane)
@@ -51,7 +51,7 @@ tset.cb.E2mE1_prctile          = 98;
 
 
 %% bmi: 
-tset.bmi_len                   = 40*60; %seconds
+tset.bmi_len                   = 30*60; %seconds
 tset.prefix_win                = 40; 
 %set this to 'nonBufferUpdateCounter', 'initFrameBase', number samples to ignore at start of bmi acqn
 
@@ -79,8 +79,8 @@ tset.b2base_coeff              = 0.5;
 
 %% random stim
 
-tset.rs.IHSImean = 15; 
-tset.rs.IHSIrange = 15; 
+tset.rs.IHSImean = 60; 
+tset.rs.IHSIrange = 55; 
 
 %%
 %Baseline inputs: 
