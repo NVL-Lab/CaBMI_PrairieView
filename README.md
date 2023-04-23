@@ -70,3 +70,4 @@ After that, it only remains to run the BMI. GOOD LUCK!
 - Baseline acquitisition (see Main_Protocol.m)  - > Baseline_Acqnvs_Prairie.m
 - BMI acquisition (see Main_Protocol.m) - > BMI_Acqnvs_Prairie.m
 
+Please let us know if there is anything missing or documentation needed!
