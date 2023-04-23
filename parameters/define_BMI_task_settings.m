@@ -83,6 +83,7 @@ tset.rs.IHSImean = 60;
 tset.rs.IHSIrange = 55; 
 
 %%
-% 1 sec delay
+% Stim delay
 tset.delay_flag = 0;
+tset.delay_time = 1;  # time in seconds to delay
 
