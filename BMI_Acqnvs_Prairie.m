@@ -434,6 +434,9 @@ function BMI_Acqnvs_Prairie(path_data, expt_str, baselineCalibrationFile, tset, 
                 disp('water delivered!'); 
             end
             if deliver_stim
+                if tset.delay_flag
+                    pause(1)
+                end
                 if(~debug_bool)
                     % blue light
                     a.writeDigitalPin("D5", 1); pause(0.2);a.writeDigitalPin("D5",0)

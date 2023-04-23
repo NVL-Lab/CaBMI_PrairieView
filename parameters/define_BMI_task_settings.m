@@ -83,11 +83,6 @@ tset.rs.IHSImean = 60;
 tset.rs.IHSIrange = 55; 
 
 %%
-%Baseline inputs: 
-%baseline_frameRate
-
-%%
-%Baseline outputs: 
-%frames_per_reward_range
-%
+% 1 sec delay
+tset.delay_flag = 0;
 

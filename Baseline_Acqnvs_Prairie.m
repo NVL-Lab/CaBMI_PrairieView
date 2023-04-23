@@ -79,7 +79,9 @@ neuronMask -> matrix for spatial filters with px*py*unit
     
     %% prepare the arduino
     % give random reward to trigger the jetball
-    a.writeDigitalPin("D9", 1); pause(1);a.writeDigitalPin("D9",0)
+    if ~ isempty(a)
+        a.writeDigitalPin("D9", 1); pause(1);a.writeDigitalPin("D9",0)
+    end
     
     %% 
     %************************************************************************

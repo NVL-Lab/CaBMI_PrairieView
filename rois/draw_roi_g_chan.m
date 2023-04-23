@@ -66,7 +66,10 @@ while(~roi_complete_bool)
     
     disp(['Current Roi Image, Num Rois: ' num2str(roi_data.num_rois)]); 
     h0 = figure('Position', [screen_size(3)/2 1 screen_size(3)/2 screen_size(4)]);
-    imagesc(roi_data.im_roi); axis square
+    imagesc(roi_data.im_roi); 
+    colormap bone
+    caxis([-0 nanmedian(nanmedian(roi_data.im_roi(:)))*20])
+    axis square
     title(['Num ROIs added: ' num2str(roi_data.num_rois) '  Add ROI? y/n']); 
     in = input('Want to Add ROI? y/n:   ', 's');
     in = lower(in);
@@ -95,7 +98,10 @@ while(~roi_complete_bool)
         Im_roi_i = roi_data.im_bg;
         Im_roi_i(:,:,3) = rois; 
         h1 = figure('Position', [screen_size(3)/2 1 screen_size(3)/2 screen_size(4)]);
-        imagesc(Im_roi_i); axis square; title(['Added Candidate Roi # ' num2str(roi_data.num_rois+1) ' Keep? y/n']);
+        imagesc(Im_roi_i); 
+        colormap bone
+        caxis([-0 nanmedian(nanmedian(roi_data.im_roi(:)))*20])
+        axis square; title(['Added Candidate Roi # ' num2str(roi_data.num_rois+1) ' Keep? y/n']);
         %Check whether to keep ROI:
         in = lower(input('Keep ROI? y/n:   ', 's'));
         if(isempty(in) || strcmp(in, 'y'))
@@ -139,11 +145,17 @@ while(~roi_complete_bool)
         roi_data = roi_data2chan(roi_data); 
         
         h = figure('Position', [screen_size(3)/2 1 screen_size(3)/2 screen_size(4)]);
-        imagesc(roi_data.im_roi_rg); axis square
+        imagesc(roi_data.im_roi_rg); 
+        colormap bone
+        caxis([-0 nanmedian(nanmedian(roi_data.im_roi(:)))*20])
+        axis square
         title(['ROI addition complete! Num ROIs: ' num2str(roi_data.num_rois)]);  
         
         h = figure('Position', [screen_size(3)/2 1 screen_size(3)/2 screen_size(4)]);
-        imagesc(roi_data.im_roi); axis square
+        imagesc(roi_data.im_roi);
+        colormap bone
+        caxis([-0 1000])
+        axis square
         title(['ROI addition complete! Num ROIs: ' num2str(roi_data.num_rois)]);         
     end
 end

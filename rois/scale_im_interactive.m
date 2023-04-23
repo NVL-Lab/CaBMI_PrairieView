@@ -19,8 +19,7 @@ while(~scale_complete_bool)
     [im_sc, im_min, im_max] = scale_im(im, min_perc, max_perc);    
     
     h = figure('Position', [screen_size(3)/2 1 screen_size(3)/2 screen_size(4)]);
-    imagesc(im_sc); 
-    colormap('gray'); 
+    imagesc(im_sc), colormap bone
     axis square
     title(['min prc: ' num2str(min_perc) '; max prc: ' num2str(max_perc)]); 
     

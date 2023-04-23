@@ -30,14 +30,15 @@ Need to start the Doric software
 %DO:
 %Input 'folder', as directory to write to.
 %--------------------------------------------------------------------------
+
 [tset] = define_BMI_task_settings();
 [fbset]   = define_fb_audio_settings();
 %Initialize arduino:
-if(fbset.fb_bool) 
-    a = arduino(fbset.arduino.com, fbset.arduino.label);
-else
-    a = [];
-end
+% if(fbset.fb_bool) 
+a = arduino(fbset.arduino.com, fbset.arduino.label);
+% else
+%     a = [];
+% end
 
 %DEFINE PATH_DATA: 
 
@@ -45,12 +46,12 @@ end
 env_dir = 'E:\Nuria\utils';
 
 % define Animal, day and folder where to save
-animal = 'ago15'; day = 'D04'; date = '221115';
+animal = 'ago23'; day = 'DF'; date = '230423';
 folder = 'E:\D1agoBMI\';
 % define experiment type
-expt_str = 'RandomDRstim'; % or 'RandomDRstim' or 'no_stim' or 'BMI_no_stim_water' or 'BMI_stim_water' or 'BMI_random_stim_water'
+% expt_str = 'RandomDRstim'; % or 'RandomDRstim' or 'no_stim' or 'BMI_no_stim_water' or 'BMI_stim_water' or 'BMI_random_stim_water'
 % expt_str = 'Behavior';
-% expt_str = 'BMI_stim';
+expt_str = 'BMI_stim';
 % if motor behavior experiment, jump to end after runing this section
 
 savePath = fullfile(folder, animal,  date, day);
@@ -64,7 +65,7 @@ path_data.im = fullfile(savePath, 'im'); %directory for imaging data
 if ~exist(path_data.im, 'dir')
     mkdir(path_data.im);
 end
-
+path_data
 %% Get pixel values from prairie
 
 pl = actxserver('PrairieLink.Application');
@@ -117,12 +118,12 @@ close all;
 %% INIT ROI_DATA
  
 %Can input a different index to choose as the Image for choosing ROI
-%Defaults to the last image in 'im_sc_struct'
+%Defaults to the last image in 'im_sc_struct't
 im_bg = im_sc_struct(end).im; 
 h = figure;
 imagesc(im_bg), colormap bone, caxis([-0 nanmean(nanmean(im_bg(:)))*4])
 axis square
-title('selected background image for identifying ROI'); 
+title('selected background image for identifying tseROI'); 
 %PLOT_IMAGES data:
 %'plot_images' contains a set of images so user can tell if ROI selection is
 %appropriate.
@@ -215,6 +216,10 @@ save(roi_data_file, 'plot_images', 'im_sc_struct', 'roi_data');
 
 
 %% Baseline acquisition
+
+%******************************************************
+%STOP !!!!! -> have you turn on the jetbal!!?????
+%******************************************************
 % Baseline environment already sets the reps to 27000
 % CAREFUL that the voltage rec doesn't go to crazy places
 base_mat_path = Baseline_Acqnvs_Prairie(path_data, roi_data.roi_mask, tset, a, fbset.arduino.pin);
@@ -242,8 +247,9 @@ plot_Neurons_Baseline(baseActivity, CComp, YrA, totalneurons)
 
 %% Select MANUALLY ensemble neurons
 %Manually enter and confirm the BMI neurons:
-E1_base = sort([6 7], 'ascend'); 
-E2_base = sort([2 3], 'ascend'); 
+
+E1_base = sort([11 12], 'ascend'); 
+E2_base = sort([4 13], 'ascend'); %  1 3 5 6 8 9 13
 ensembleNeurons = [E1_base, E2_base];
 plot_Neurons_Ensemble(baseActivity, ensembleNeurons, [ones(1,length(E1_base)) 2*ones(1,length(E2_base))])
 select_roi_data(roi_data, [unique(E2_base), unique(E1_base)]); 
@@ -342,14 +348,14 @@ end
 % pretrain_base(:, isnan(pretrain_base(1,:))) = [];
 % baseValSeed = pretrain_base(:,end)
 %% Test FB
-
-fb_freq_i = 7000;
-fbset.arduino.duration = 1;
-playTone(a,...
-    fbset.arduino.pin,...
-    fb_freq_i,...
-    fbset.arduino.duration)
-
+if fbset.fb_bool
+    fb_freq_i = 7000;
+    fbset.arduino.duration = 1;
+    playTone(a,...
+        fbset.arduino.pin,...
+        fb_freq_i,...
+        fbset.arduino.duration)
+end
 %%
 baseValSeed = ones(length(E1_base)+length(E2_base), 1)+nan ;
 baselineCalibrationFile = target_info_path;
@@ -358,10 +364,15 @@ close all
 imshow(im_bg)
 %  baseValSeed = ones(length(E1_base)+length(E2_base), 1)+nan 
 
+%******************************************************
+%STOP !!!!! -> have you turn on the jetbal!!?????
+%******************************************************
+
 % define the type of experiment
 
 BMI_Acqnvs_Prairie(path_data, expt_str, baselineCalibrationFile, tset, vector_stim, ...
     0, [], baseValSeed, fbset.fb_bool , fb_cal, a);
+
 
 
 %--------------------------------------------------------------------------
