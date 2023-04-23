@@ -10,9 +10,9 @@ tset.bmi_env = ...
 
 %
 %% imaging
-tset.im.frameRate                    = 29.752; 
-tset.im.zoom                         = 1.5; 
-tset.im.posz                         = 0;
+tset.im.frameRate                    = 29.752;   % copy this from Prairie for later analysis
+tset.im.zoom                         = 1.5;  % zoom to obtain cells
+tset.im.posz                         = 0;  % position of Z if known
 tset.im.chan_data                    = struct('label', 'g', ...
                                                           'chan_idx', 2); %in RGB, G is 2nd
 
@@ -24,6 +24,7 @@ tset.im.chan_data                    = struct('label', 'g', ...
 % cell_diam = 7; %CELL_DIAM is diameter used for dilation.
 % finemode = 1; %imTemplateMatch will be used instead of normxcorr2. It will be slower.
 % temmode = 0;  % 0 is for full circle (soma) 1 is for donuts (membrane)
+
 % Following were for zoom=1.5 on bruker soma
 % tset.roi.template_diam              = 15; %diamter of difference of Gaussians in pixels
 % tset.roi.thres                      = 0.5; %cell detection threshold as correlation coefficient
@@ -39,15 +40,14 @@ tset.roi.finemode                   = 1; %imTemplateMatch will be used instead o
 tset.roi.temmode                    = 1;  % 0 is for full circle (soma) 1 is for donuts (membrane)
 
 %% calibration:  
-tset.cb.sec_per_reward_range   = [70 50];  %[100 70]; % [120 90] 
-tset.cb.baseline_len           = 15*60; %seconds
-tset.cb.f0_win_bool            = 1; %during cb, 
-%estimate f0 using the window
-tset.cb.dff_win_bool           = 1;
+tset.cb.sec_per_reward_range   = [70 50];  %[100 70]; % [120 90] a range on how many frames should elapse before a reward is expected.  Used to calibrate the target patterns.
+tset.cb.baseline_len           = 15*60; % seconds
+tset.cb.f0_win_bool            = 1; % during cb, if true, estimate f0 with a window of activity.  if false, estimate f0 using the full baseline, 
+tset.cb.dff_win_bool           = 1; % 
 tset.cb.f0_init_slide          = 0; %during cb, 
 %if 0, f0 is only used after f0_win samples.  if 1, f0 is
 %adapted in the window from 0 to f0_win samples.
-tset.cb.E2mE1_prctile          = 98;  
+tset.cb.E2mE1_prctile          = 98;  %it is the lowest acceptable E2mE1_prctile for deciding the target threshold. 
 
 
 %% bmi: 
@@ -73,14 +73,14 @@ tset.rewardDelayFrames         = 10;
 %extra delay
 
 tset.back2BaseFrameThresh      = 2; %2 frames of back2base 
-tset.relaxationTime            = 0; 
+tset.relaxationTime            = 0;  % period after a hit to stop the BMI
 tset.b2base_coeff              = 0.5; 
 %a frame counts as back2base if cursor < b2base_coeff*T, where T is target cursor value.  
 
 %% random stim
-
-tset.rs.IHSImean = 60; 
-tset.rs.IHSIrange = 55; 
+% variables to create the random stim vector
+tset.rs.IHSImean = 60;  % interstim interval
+tset.rs.IHSIrange = 55;  % interstim range
 
 %%
 % Stim delay
