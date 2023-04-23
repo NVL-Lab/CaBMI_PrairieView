@@ -435,7 +435,7 @@ function BMI_Acqnvs_Prairie(path_data, expt_str, baselineCalibrationFile, tset, 
             end
             if deliver_stim
                 if tset.delay_flag
-                    pause(1)
+                    pause(tset.delay_time)
                 end
                 if(~debug_bool)
                     % blue light
