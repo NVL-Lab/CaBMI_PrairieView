@@ -46,7 +46,7 @@ a = arduino(fbset.arduino.com, fbset.arduino.label);
 env_dir = 'E:\Nuria\utils';
 
 % define Animal, day and folder where to save
-animal = 'ago23'; day = 'DF'; date = '230423';
+animal = 'ago29'; day = 'DF'; date = '230423';
 folder = 'E:\D1agoBMI\';
 % define experiment type
 % expt_str = 'RandomDRstim'; % or 'RandomDRstim' or 'no_stim' or 'BMI_no_stim_water' or 'BMI_stim_water' or 'BMI_random_stim_water'
@@ -248,8 +248,8 @@ plot_Neurons_Baseline(baseActivity, CComp, YrA, totalneurons)
 %% Select MANUALLY ensemble neurons
 %Manually enter and confirm the BMI neurons:
 
-E1_base = sort([11 12], 'ascend'); 
-E2_base = sort([4 13], 'ascend'); %  1 3 5 6 8 9 13
+E1_base = sort([12 13], 'ascend'); 
+E2_base = sort([6 5 ], 'ascend'); %  1 3 5 6 8 9 13
 ensembleNeurons = [E1_base, E2_base];
 plot_Neurons_Ensemble(baseActivity, ensembleNeurons, [ones(1,length(E1_base)) 2*ones(1,length(E2_base))])
 select_roi_data(roi_data, [unique(E2_base), unique(E1_base)]); 
