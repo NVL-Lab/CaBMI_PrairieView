@@ -22,7 +22,7 @@ voltage rec samples/sec min 1000, time(ms) > time_t_series
 Need to start the Doric software
 - add both channels
 - select ttl trigger for both
-- amplitude will be: blue (d5): 15-18   and UV (d3): 70-150
+- amplitude will be: blue (d5): 5-18   and UV (d3): 60-150
 %}
 
 %% DEFINE PATHS and parameters
@@ -46,7 +46,7 @@ a = arduino(fbset.arduino.com, fbset.arduino.label);
 env_dir = 'E:\Nuria\utils';
 
 % define Animal, day and folder where to save
-animal = 'ago29'; day = 'DF'; date = '230423';
+animal = 'ago23'; day = 'DF'; date = '230423';
 folder = 'E:\D1agoBMI\';
 % define experiment type
 % expt_str = 'RandomDRstim'; % or 'RandomDRstim' or 'no_stim' or 'BMI_no_stim_water' or 'BMI_stim_water' or 'BMI_random_stim_water'
@@ -218,7 +218,7 @@ save(roi_data_file, 'plot_images', 'im_sc_struct', 'roi_data');
 %% Baseline acquisition
 
 %******************************************************
-%STOP !!!!! -> have you turn on the jetbal!!?????
+%STOP !!!!! -> have you turn on motor recording on the jetbal!!?????
 %******************************************************
 % Baseline environment already sets the reps to 27000
 % CAREFUL that the voltage rec doesn't go to crazy places
@@ -248,8 +248,8 @@ plot_Neurons_Baseline(baseActivity, CComp, YrA, totalneurons)
 %% Select MANUALLY ensemble neurons
 %Manually enter and confirm the BMI neurons:
 
-E1_base = sort([12 13], 'ascend'); 
-E2_base = sort([6 5 ], 'ascend'); %  1 3 5 6 8 9 13
+E1_base = sort([11 12], 'ascend'); 
+E2_base = sort([4 13], 'ascend'); %  1 3 5 6 8 9 13
 ensembleNeurons = [E1_base, E2_base];
 plot_Neurons_Ensemble(baseActivity, ensembleNeurons, [ones(1,length(E1_base)) 2*ones(1,length(E2_base))])
 select_roi_data(roi_data, [unique(E2_base), unique(E1_base)]); 
