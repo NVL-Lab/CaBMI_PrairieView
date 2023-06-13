@@ -1,5 +1,5 @@
 function [target_info_path, target_cal_ALL_path, fb_cal] = BMI_simulation(n_f_file, roi_data_file,  strcMask_file, ...
-    E1_base, E2_base, frames_per_reward_range, tset, folder_save, original_cursor)
+    E1_base, E2_base, frames_per_reward_range, tset, folder_save)
     %{
     4.18.19
     inputs:
