@@ -85,5 +85,5 @@ tset.rs.IHSIrange = 55;  % interstim range
 %%
 % Stim delay
 tset.delay_flag = 0;
-tset.delay_time = 1;  # time in seconds to delay
+tset.delay_time = 1;  % time in seconds to delay
 
