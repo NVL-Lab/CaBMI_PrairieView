@@ -39,9 +39,13 @@ df = df_D1act;
         
         % obtain and clean the raw data
         bmi_raw_data = clean_bmi_raw_data(fullfile(folder_raw, row.BMI_online));
+        if ~ ismember('frame', fieldnames(bmi_raw_data.data))
+            continue
+        end
         
         % run simulation of T1 using same target_file     
         simulated_data_T1 = BMI_simulation(bmi_raw_data.data.bmiAct, tset, bmi_raw_data.bData);
+        close all
         if simulated_data_T1.selfTargetCounter ~= bmi_raw_data.data.selfTargetCounter
             disp('Something went wrong, simulated data is not the same as raw data');
             simulations_went_wrong = [simulations_went_wrong, row.session_path];
@@ -52,10 +56,12 @@ df = df_D1act;
         % obtain a target_file for T2 based on baseline
         [target_info_path, ~, ~] = baseline2target(n_f_file, roi_data_file,  ...
             bmi_raw_data.bData.E2_base, bmi_raw_data.bData.E1_base, frames_per_reward_range, tset, folder_save, fbset);
+        close all
         target_info_T2 = load(target_info_path);
         % run simulation of T2
-        bmiAct_T2 = [bmi_raw_data.data.bmiAct(3:4, :);bmi_raw_data.data.bmiAct(1:2, :)];
+        bmiAct_T2 = [bmi_raw_data.data.bmiAct(3:4, :); bmi_raw_data.data.bmiAct(1:2, :)];
         simulated_data_T2 = BMI_simulation(bmiAct_T2, tset, target_info_T2);
+        close all
         data = simulated_data_T2;
         bData = target_info_T2;
         save(fullfile(folder_save, ['simulated_data_T2_', datestr(datetime('now'), 'yymmddTHHMMSS'), '.mat']), 'data', 'bData')

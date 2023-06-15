@@ -6,6 +6,9 @@ Function to remove the last nans values of bmi_raw_data
     % load data
     bmi_raw_data = load(bmi_raw_data_file);
     % Get the fieldnames of bmi_raw_data.data
+    if ~ ismember('frame', fieldnames(bmi_raw_data.data))
+        return
+    end
     data_fields = fieldnames(bmi_raw_data.data);
 
     % Iterate through the fields
