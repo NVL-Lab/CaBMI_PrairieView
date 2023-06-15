@@ -1,29 +1,34 @@
-function [a] = run_all_simulation(df)
 %{
-Function to run all the simulations both ways
-inputs:
-folder_process = 'F:\data\process'
-folder_experiments = 'F:\data\raw'
-df_BMI_CONTROL_AGO = parquetread(fullfile(folder_process, 'df_BMI_CONTROL_AGO.parquet'))
-df_BMI_CONTROL_LIGHT = parquetread(fullfile(folder_process, 'df_BMI_CONTROL_LIGHT.parquet'))
-df_BMI_CONTROL_RANDOM = parquetread(fullfile(folder_process, 'df_BMI_CONTROL_RANDOM.parquet'))
-df_BMI_STIM_AGO = parquetread(fullfile(folder_process, 'df_BMI_STIM_AGO.parquet'))
-df = df_BMI_STIM_AGO;
+script to run all the simulations 
+
 %}
 
-    rows = height(df);
-    [tset] = define_BMI_task_settings();
-    frames_per_reward_range = tset.cb.sec_per_reward_range * tset.im.frameRate;
-    for row = 1:rows 
-        session_path = df(row, 'session_path').Variables;
-        n_f_file = fullfile(folder_experiments, session_path, df(row, 'Baseline_online').Variables);
-        roi_data_file = fullfile(folder_experiments, session_path, df(row, 'roi_data').Variables);
-        strcMask_file = fullfile(folder_experiments, session_path, df(row, 'mask_data').Variables);
-        load(fullfile(folder_experiments, session_path, df(row, 'BMI_online').Variables))
-        folder_save = fullfile(folder_process, session_path, 'simulation');
-        if not(isfolder(folder_save))
-            mkdir(folder_save)
-        end
-        BMI_simulation(n_f_file, roi_data_file, strcMask_file, ...
-            bData, frames_per_reward_range, tset, folder_save, data.cursor);
-    end
+folder_list = struct('FA', 'D:/data', 'FB', 'F:/data', 'FC', 'G:/data');
+folder_df = 'C:/Users/Nuria/Documents/DATA/D1exp/df_data';
+df_CONTROL = parquetread(fullfile(folder_df, 'df_CONTROL.parquet'));
+df_CONTROL_AGO = parquetread(fullfile(folder_df, 'df_CONTROL_AGO.parquet'));
+df_CONTROL_LIGHT = parquetread(fullfile(folder_df, 'df_CONTROL_LIGHT.parquet'));
+df_D1act = parquetread(fullfile(folder_df, 'df_D1act.parquet'));
+df_RANDOM = parquetread(fullfile(folder_df, 'df_RANDOM.parquet'));
+df_DELAY = parquetread(fullfile(folder_df, 'df_DELAY.parquet'));
+df_NO_AUDIO = parquetread(fullfile(folder_df, 'df_NO_AUDIO.parquet'));
+simulations_wrong = {};
+
+[s_wrong] = run_experiment_simulation(df_D1act, folder_list);
+simulations_wrong = [simulations_wrong, s_wrong];
+[s_wrong] = run_experiment_simulation(df_CONTROL, folder_list);
+simulations_wrong = [simulations_wrong, s_wrong];
+[s_wrong] = run_experiment_simulation(df_CONTROL_AGO, folder_list);
+simulations_wrong = [simulations_wrong, s_wrong];
+[s_wrong] = run_experiment_simulation(df_CONTROL_LIGHT, folder_list);
+simulations_wrong = [simulations_wrong, s_wrong];
+[s_wrong] = run_experiment_simulation(df_RANDOM, folder_list);
+simulations_wrong = [simulations_wrong, s_wrong];
+[s_wrong] = run_experiment_simulation(df_DELAY, folder_list);
+simulations_wrong = [simulations_wrong, s_wrong];
+[s_wrong] = run_experiment_simulation(df_NO_AUDIO, folder_list);
+simulations_wrong = [simulations_wrong, s_wrong];
+
+disp(simulations_wrong)
+
+
