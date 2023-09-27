@@ -34,11 +34,12 @@ Function to simulate the BMI
     %initializing flags
     trialFlag = 1;
     backtobaselineFlag = 0;
+    baseBuffer_full = 0; %bool indicating the Fbuffer filled
     
     %% SIMULATION 
     
     data.frame = 1;
-    baseBuffer_full = 0; %bool indicating the Fbuffer filled
+    
 
     for i=1:expectedLengthExperiment
         if nonBufferUpdateCounter == 0
