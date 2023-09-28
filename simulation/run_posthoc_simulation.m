@@ -32,17 +32,9 @@ experiment_types = {'D1act', 'CONTROL', 'CONTROL_LIGHT', 'CONTROL_AGO', 'RANDOM'
             if not(isfolder(folder_save))
                 mkdir(folder_save)
             end
-            f_raw = readNPY(fullfile(folder_suite2p, 'F.npy'));
+            dff = readNPY(fullfile(folder_suite2p, 'dff.npy'));
             is_cell = readNPY(fullfile(folder_suite2p, 'iscell.npy'));
             direct_neurons = load(fullfile(folder_suite2p, 'direct_neurons.mat'));
-            bad_frames_file = fullfile(folder_suite2p, 'bad_frames.mat');
-            if exist(bad_frames_file, 'file') > 0
-                bad_frames = load(bad_frames_file);
-                f_good = f_raw(:, ~bad_frames.bad_frames_bool);
-                calibration_frames = calibration_frames - sum(bad_frames.bad_frames_bool(1:calibration_frames));
-            else
-                f_good = f_raw;
-            end
             indirect_neurons = find(is_cell(:,1)==1)-1;
             indirect_neurons = setdiff(indirect_neurons, [direct_neurons.E1,  direct_neurons.E2, ...
                 direct_neurons.exclude]);
@@ -60,7 +52,7 @@ experiment_types = {'D1act', 'CONTROL', 'CONTROL_LIGHT', 'CONTROL_AGO', 'RANDOM'
             for t = 1:numel(Ts)
                 disp('Processing row: ' + row.session_path + ' ' + Ts{t});
                 tname = Ts{t};
-                iterat = 100;
+                iterat = 500;
                 if t>2
                     Tnotfound = true;
                     while Tnotfound && iterat > 0
@@ -69,7 +61,7 @@ experiment_types = {'D1act', 'CONTROL', 'CONTROL_LIGHT', 'CONTROL_AGO', 'RANDOM'
                         neurons.(tname).E1 = indirect_neurons(randomIndices(1:2))';
                         neurons.(tname).E2 = indirect_neurons(randomIndices(3:4))';
                         tval = neurons.(tname);
-                        [target_info_path, max_iter_achieved] = baseline2targetposthoc(f_good(:, 1:calibration_frames), ...
+                        [target_info_path, max_iter_achieved] = baseline2targetposthoc(dff(:, 1:calibration_frames), ...
                         tval.E1 + 1, tval.E2 + 1, frames_per_reward_range, tset, folder_save, tname);
                         close all
                         if ~max_iter_achieved
@@ -78,13 +70,13 @@ experiment_types = {'D1act', 'CONTROL', 'CONTROL_LIGHT', 'CONTROL_AGO', 'RANDOM'
                         else
                             continue
                         end
-                        if target_info.T1 > 0.5
+                        if target_info.T1 > 2
                             Tnotfound = false;
                         end
                     end
                 else
                     tval = neurons.(tname);
-                    [target_info_path, max_iter_achieved] = baseline2targetposthoc(f_good(:, 1:calibration_frames), ...
+                    [target_info_path, max_iter_achieved] = baseline2targetposthoc(dff(:, 1:calibration_frames), ...
                     tval.E1 + 1, tval.E2 + 1, frames_per_reward_range, tset, folder_save, tname);
                     target_info = load(target_info_path);
                     close all
@@ -97,9 +89,9 @@ experiment_types = {'D1act', 'CONTROL', 'CONTROL_LIGHT', 'CONTROL_AGO', 'RANDOM'
                 end
                 ensemble_neurons = [tval.E1  tval.E2];
                 % run simulation of T1 using same target_file     
-                simulated_data = BMI_simulation(f_good(ensemble_neurons+1, calibration_frames:end), tset, target_info);
+                simulated_data = BMI_simulation(dff(ensemble_neurons+1, calibration_frames:end), tset, target_info);
                 close all
-                simulated_data.good_sim = ~max_iter_achieved && target_info.T1 > 0.5;
+                simulated_data.good_sim = ~max_iter_achieved && target_info.T1 > 2;
                 data = simulated_data;
                 bData = target_info;
                 save(fullfile(folder_save, ['simulated_data_', tname, '.mat']), 'data', 'bData')
