@@ -102,8 +102,9 @@ function [target_info_path, max_iter_achieved] = baseline2targetposthoc(f_calib,
     else
         f_smooth = f_postf0; 
     end
-    
+
     dff = (f_smooth-f0)./f0;
+
     %mean center the dff:
     n_mean = nanmean(dff,1); %1 x num_neurons
     mean_mat = repmat(n_mean, size(dff,1), 1);
