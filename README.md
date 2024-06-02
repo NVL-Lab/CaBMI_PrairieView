@@ -1,4 +1,5 @@
 # CaBMI_PrairieView
+<a href="https://zenodo.org/doi/10.5281/zenodo.11430152"><img src="https://zenodo.org/badge/430497180.svg" alt="DOI"></a>
 Code for running CaBMI with Prairie_View and Matlab.
 The first initial version of this code was written by Vivek, Ines and Nuria. Nuria has since addapted and modified a bit here and there.
  
