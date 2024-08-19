@@ -21,6 +21,6 @@ units => index of the neurons in the neuronMask that we want
         posmaxy = strcMask.maxy(u);
         posminy = strcMask.miny(u);
         Imd = double(Im(posminy:posmaxy,posminx:posmaxx));
-        unitVals(auxu) = nansum(nansum(Imd.* strcMask.neuronMask{u}/nansum(strcMask.neuronMask{u})));
+        unitVals(auxu) = nansum(nansum(Imd.* strcMask.neuronMask{u}/u/nansum(strcMask.neuronMask{u})));
     end
 end
